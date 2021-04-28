@@ -14,7 +14,7 @@ if(CpuNeedAll > CpuHave && CpuNeedAll > MemHave)
 }
 else
 {
-   	//记录接下来几次Add请求加起来所需要的的cpu和mem，仿照上面，计算性价比。
+    //记录接下来几次Add请求加起来所需要的的cpu和mem，仿照上面，计算性价比。
 }
 ```
 
@@ -54,3 +54,19 @@ for(int i = 0; i < HostBuy.size(); ++i)
 HostRatio = min((double)CpuNeed / (HostBuy[i].CoreNum_A), (double)MemoryNeed / (HostBuy[i].Memory_A ));
 ```
 
+
+
+- ### 迁移
+
+  每天迁移之前最已购买主机按照空闲率升序排序，从后往前迁移。计算空闲率时也使用木桶效应，记录CPU和内存二者空闲率的大者。
+
+  ```c++
+      bool operator < (const Host &a)
+      {
+          double this_notUseRatio = max((double) (CoreNum_A + CoreNum_B) / CoreCapacity, (double)(Memory_A + Memory_B) / MemoryCapacity);
+          double a_notUseRatio    = max((double) (a.CoreNum_A + a.CoreNum_B) / a.CoreCapacity, (double)(a.Memory_A + a.Memory_B) / a.MemoryCapacity);
+          return this_notUseRatio < a_notUseRatio;
+      }
+  ```
+
+  从后往前迁移时，会遍历前面的所有主机，仿照部署时的操作，选择放置后的主机利用率最大的主机进行迁移。
