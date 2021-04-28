@@ -1,8 +1,28 @@
-## HWCodeCraft-2021
+# HWCodeCraft-2021
 
-- **部署**
+- ## 购买
 
-将每一天所有的请求按需求资源降序排序，先处理资源需求大的Add请求。同时为了执行Add请求时，利用改天中之前的Del请求，会先去寻找在这个Add请求之前的Del请求。因此存储Add和Del请求时，需要存储该请求在该天中的顺序。
+每次购买时，对主机种类进行排序，买排序后第一个能放下的主机。排序规则如下。
+
+会记录已知的（包括未来K天）一共所需要的Cpu和内存资源：CpuNeedAll，CpuNeedAll，和已买的主机拥有的Cpu和内存资源：CpuHave，MemHave。
+
+```C++
+//K天后一共需要的大于现在已有的 
+if(CpuNeedAll > CpuHave && CpuNeedAll > MemHave)
+{
+	//按照 cpu = CpuNeedAll - CpuHave，mem = MemNeedAll - MemHave;作为性价比计算因子之一。计算性价比
+}
+else
+{
+    //记录接下来几次Add请求加起来所需要的的cpu和mem，仿照上面，计算性价比。
+}
+```
+
+
+
+- ## **部署**
+
+将每一天所有的请求按需求资源降序排序，先处理资源需求大的Add请求。同时为了执行Add请求时，利用该天中之前的Del请求，会先去寻找在这个Add请求之前的Del请求。因此存储Add和Del请求时，需要存储该请求在该天中的顺序。
 
 ```c++
 //开始寻找有无合适主机
