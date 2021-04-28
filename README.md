@@ -56,9 +56,9 @@ HostRatio = min((double)CpuNeed / (HostBuy[i].CoreNum_A), (double)MemoryNeed / (
 
 
 
-- ## 迁移
+- ## **迁移**
 
-  每天迁移之前最已购买主机按照空闲率升序排序，从后往前迁移。计算空闲率时也使用木桶效应，记录CPU和内存二者空闲率的大者。
+每天迁移之前最已购买主机按照空闲率升序排序，从后往前迁移。计算空闲率时也使用木桶效应，记录CPU和内存二者空闲率的大者。
 
   ```c++
       bool operator < (const Host &a)
@@ -69,5 +69,5 @@ HostRatio = min((double)CpuNeed / (HostBuy[i].CoreNum_A), (double)MemoryNeed / (
       }
   ```
 
-  从后往前迁移时，会遍历前面的所有主机，仿照部署时的操作，选择放置后的主机利用率最大的主机进行迁移。
+从后往前迁移时，会遍历前面的所有主机，仿照部署时的操作，选择放置后的主机利用率最大的主机进行迁移。
 
